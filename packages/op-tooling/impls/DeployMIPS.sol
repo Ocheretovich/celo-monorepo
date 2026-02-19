@@ -21,6 +21,10 @@ contract DeployMIPS is Script {
     uint256 minProposalSize_ = vm.envOr("MIN_PROPOSAL_SIZE", uint256(0));
     uint256 challengePeriod_ = vm.envOr("CHALLENGE_PERIOD", uint256(0));
 
+    if (oracle_ != address(0) && oracle_.code.length == 0) {
+      revert MissingEnvVars();
+    }
+
     if (oracle_ == address(0) && !(minProposalSize_ > 0 && challengePeriod_ > 0)) {
       revert MissingEnvVars();
     }
